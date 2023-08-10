@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+
+
+
+body{
+	margin:0;
+	padding: 0;
+	background: #222831;
+	color: #fff4ff;
+	font-family: 'Ubuntu', sans-serif;
+}
+.navtab{
+	display: flex;
+    justify-content: space-between;
+    background:#222831;
+    margin: 0;
+    padding: 10px 15px;
+    align-items: center;
+}
+
+.sidebar{
+	width: calc(100% - 800px);
+}
+
+.sidebar .navigation ul{
+	margin: 0;
+    padding: 5px;
+    list-style: none;
+}
+
+.menuitem ul{
+	display: flex;
+	list-style: none;
+	color: #fff;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+}
+.menuitem ul li{
+	padding: 0 8px;
+    font-weight: 400;
+    color: #fdf6fd;
+    font-size: 19px;
+    pointer-events: fill;
+}
+
+.menuitem ul li span{
+	font-size: 16px;
+}
+.brand_name{
+	color: #EEEEEE;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: larger;
+    pointer-events: painted;
+}
+.brand_name:hover{
+	color: #EEEEEE;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: larger;
+    pointer-events: painted;
+}
+.statusbox{
+	width:15rem;
+	padding: 0;
+	background: #454e59;
+	margin: 8px;
+}
+.statusbox .card-body .d-flex{
+	justify-content: space-between;
+	color: #fdf6fd;
+}
+
+.statusbox .card-body .d-flex h4{
+	color: #fff4ff;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.logos_title{
+	background: #892CDC;
+    padding: 4px 6px;
+    border-radius: 50%;
+    font-size: larger;
+}
+hr{
+	    margin: 1rem 0;
+    color: #fff4ff;
+    border: 0;
+    border-top: 3px solid;
+    opacity: .25;
+}
+
+.newtaskbtn{
+	background: #892cdc;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 14px;
+    color: #FDEBED;
+}
+
+.taskbar{
+	    gap: 1%;
+    align-items: center;
+    justify-content: flex-start;
+}
+.taskcard{
+	     background: #222831;
+    width: 15rem;
+    padding: 10px;
+    margin: 5px;
+}
+
+.task_header{
+	justify-content: space-between;
+    margin-bottom: 5%;
+    align-items: center;
+}
+
+.taskbody h5{
+	color:#BC6FF1;
+}
+
+.viewtask{
+	    text-align: end;
+    font-size: larger;
+    color: #D9ACF5;
+    margin: 0;
+}
+
+.main{
+	    position: absolute;
+    left: 200px;
+    padding: 16px;
+    height: 100vh;
+    overflow: auto;
+    overflow-x: hidden;
+}

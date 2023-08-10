@@ -1,0 +1,365 @@
+/*---===========style sidebar==============--->*/
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,700&display=swap');
+
+
+/*==============global vatiable============*/
+
+*{
+  font-family: 'Ubuntu', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+:root{
+  --blue: #2a2185;
+  --white: #fff;
+  --gray:#f5f5f5;
+  --black1:#222;
+  --black2:#999;
+
+} 
+
+body{
+  min-height: 100vh;
+  overflow: hidden;
+  color: #fff;
+
+}
+.containers{
+  position: relative;
+  width: 100%;
+}
+
+.navtab{
+  display: flex;
+    justify-content: space-between;
+    background:#222831;
+    margin: 0;
+    padding: 10px 15px;
+    align-items: center;
+}
+
+.menuitem ul{
+  display: flex;
+  list-style: none;
+  color: #fff;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.menuitem ul li{
+  padding: 0 8px;
+    font-weight: 400;
+    color: #fdf6fd;
+    font-size: 19px;
+    pointer-events: fill;
+}
+
+.menuitem ul li span{
+  font-size: 16px;
+}
+.brand_name{
+  color: #EEEEEE;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: larger;
+    pointer-events: painted;
+}
+.brand_name:hover{
+  color: #EEEEEE;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: larger;
+    pointer-events: painted;
+}
+
+
+.navigation{
+     position: fixed;
+    width: 250px;
+    height: 100%;
+    background: #454e59;
+    border-left: 18px solid #454e59;
+    transition: 0.5s;
+    overflow: hidden;
+    border-right: 1px solid #454e59;
+}
+
+.navigation.active{
+  width: 80px;
+  transition: 0.5s;
+}
+
+
+.navigation ul{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  padding: 0;
+
+}
+
+.navigation ul li{
+  position: relative;
+  width: 100%;
+  list-style: none; 
+  margin-bottom: 20px; 
+  color: #fff4ff;
+}
+
+
+
+.navigation ul li:nth-child(1){
+  font-weight: 600;
+    font-size: larger;
+    padding: 11px 0 30px 0px;
+    pointer-events: none;
+}
+
+.navigation ul li:nth-child(8){
+    font-size: large;
+    font-weight: 100;
+    padding: 13% 0px;
+}
+
+.navigation ul li a{
+  text-decoration: none;
+  color: #fff4ff;
+}
+
+.navigation ul li a i{
+  margin-right: 15px;
+}
+
+.userprofile{
+  width: 46px;
+    border: 3px solid #BC6FF1;
+    border-radius: 50%;
+    box-shadow: 1px 0px 20px #BC6FF1;
+}
+
+
+
+.main{
+  position: absolute;
+  width: calc(100% - 250px);
+  left: 250px;
+  min-height: 100vh;
+  transition: 0.5s;
+  background: #222831;
+
+}
+
+.content{
+      height: calc(100vh - 6vh);
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 1%;
+}
+
+.fixstatusbox{
+  width: 13rem;
+    padding: 0;
+    background: #454e59;
+    margin: 5px;
+    border-radius: 2%;
+}
+
+.statusbox{
+  width: 13rem;
+    padding: 0;
+    background: #454e59;
+    margin: 5px;
+    border-radius: 2%;
+}
+
+.statusbox .card-body .d-flex{
+  justify-content: space-between;
+  color: #fdf6fd;
+}
+
+.statusbox .card-body .d-flex h4{
+  color: #fff4ff;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.logos_title{
+  background: #892CDC;
+    padding: 4px 6px;
+    border-radius: 15%;
+    font-size: larger;
+}
+
+.new_notification{
+        font-size: small;
+    background: #48a64c;
+    padding: 9px;
+    border-radius: 30px;
+    margin-top: -34px;
+    margin-right: -20px;
+
+}
+
+hr{
+      margin: 1rem 0;
+    color: #fff4ff;
+    border: 0;
+    border-top: 3px solid;
+    opacity: .25;
+}
+
+.newtaskbtn{
+  background: #892cdc;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 14px;
+    color: #FDEBED;
+}
+
+.newtaskbtn:hover{
+  background: #66299d;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 14px;
+    color: #FDEBED;
+}
+
+
+
+
+.taskbar{
+      gap: 1%;
+    align-items: center;
+    justify-content: space-between;
+}
+.taskcard{
+        background: #454e59;
+    width: 18rem;
+    padding: 10px;
+    margin: 5px;
+    color: #fdf6fd;
+    height: 16rem;
+    box-shadow: 1px 2px 12px #101112;
+}
+
+.task_header{
+  justify-content: space-between;
+    margin-bottom: 5%;
+    align-items: center;
+}
+
+
+
+.taskbody button{
+  color:#BC6FF1;
+}
+
+.taskbody p{
+  font-size:small;color: #898a8b;
+}
+.taskfooter{
+      position: absolute;
+    bottom: 0;
+    padding: 7px;
+    text-align: end;
+    width: -webkit-fill-available;
+    padding-top: 14px;
+    justify-content: space-between;
+}
+
+.viewtask{
+     text-align: end;
+    font-size: larger;
+    color: #D9ACF5;
+    margin: 0;
+    background: #454e59;
+    padding: 0 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.inputattr label{
+      color: #BC6FF1;
+    font-weight: 400;
+    font-size: large;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.inputattr .form-brefing{
+    width: 100%;
+    height: 35px;
+    border-radius: 2px;
+    border: none;
+}
+
+input:focus { 
+    outline: none !important;
+    border-color: #BC6FF1;
+    box-shadow: 0 0 10px #BC6FF1;
+ }
+
+ .btn-custome{
+  background: #892cdc;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 9px;
+    color: #FDEBED;
+    margin: 5px;
+ }
+
+.btn-custome:hover{
+    background: #393E46;
+    color: #FDEBED;
+}
+
+.post_card{
+      margin: 3%;
+    padding: 1%;
+    background: #393E46;
+    color: #fff4ff;
+}
+.post_title{
+  color: #BC6FF1;
+}
+
+.post_card_attach{
+    margin: 0% 0;
+    padding: 1%;
+    color: #fff4ff;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.postfile_down{
+        justify-content: space-between;
+    padding: 5px;
+    background: #222831;
+    border-radius: 8px;
+    align-items: baseline;
+    box-shadow: 0px 0px 4px #4a4d51;
+    gap: 8px;
+    margin: 3px 0;
+    width: fit-content;
+
+}
+
+.imagearea{
+  display: flex!important;
+    flex-direction: row;
+    overflow: auto;
+    gap: 20px;
+    overflow-y: hidden;
+}
+
+.daily_status_title{
+  font-size: 35px;
+    background: none;
+    color: #D9ACF5;
+}
