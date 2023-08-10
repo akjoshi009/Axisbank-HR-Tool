@@ -1,0 +1,72 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+	<div class="row d-flex" style="justify-content:center;align-items: center;padding: inherit;padding-top: 5%;">
+		<div class="card" style="width: max(80%, 32rem);">
+			<h5 style="color: #892cdc;padding: 11px;"><strong><i class="fa fa-user" style="font-size:20px;padding-right:10px"></i>Create candidate</strong></h5>
+			<div class="card-body">
+				<form method="POST" action="get_candidate_data" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="row mb-2" style="margin: auto;">
+						<label>Name</label>
+						<input type="text" name="username" id="id_username" class="form-control">
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<label>Job Title</label>
+						<select class="form-control" id="id_jobtitle">
+							<option>Select</option>
+							{% for i in job_category %}
+							<option value="{{i.sub_category}}" data="{{i.jid}}">{{i.sub_category}}</option>
+							{% endfor %}
+						</select>
+						<input type="hidden" name="jobtitle" id="optionval" class="form-control">
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<label>Job Category</label>
+						<input type="text" name="jobcategory"  id="id_category" class="form-control">
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<label>Contact</label>
+						<input type="text" name="contact" id="id_subcategory" class="form-control">
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<label>Upload Resume</label>
+						<input type="file" name="resume" id="id_resume" class="form-control">
+					</div>					
+					<div class="row d-flex" style="margin:auto">
+						<input type="hidden" name="jobid" value="" id="jobid">
+						<button class="btn newtaskbtn" id="aibtn" type="submit"><span id="txt">Create</button>
+					</div>
+					<div class="row" id="success" style="margin:auto;color: #55dc44;padding: 10px;">
+						{% if messages %}
+							{% for message in messages %}
+								{{message}}
+							{% endfor %}
+						{% endif %}
+					</div>
+				</form>
+				
+
+			</div>
+		</div>		
+	</div>
+</div>
+<script type="text/javascript">
+	setTimeout(function(){
+		$('#success').hide();
+	},3000)
+
+	$('#id_jobtitle').on('change', () => {
+		var option = $('#id_jobtitle').val();
+		var key =$('#id_jobtitle').find(':selected').attr('data')
+		console.log(key)
+		$('#optionval').val(option)
+		$('#jobid').val(key)
+		
+	})
+</script>
+
+
+{% endblock %}

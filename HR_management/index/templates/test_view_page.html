@@ -1,0 +1,64 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+	.questionscard{
+		width: max(45%, 22rem);
+		padding: 10px;
+
+	}
+</style>
+
+<div class="container">
+	<div class="row d-flex" style="margin:auto;">
+		<div class="card card-body" style="color:#000;">
+			<div class="row d-flex">
+				<span><strong>Job titles :</strong> {{data.0.jobtitle}}</span>
+				<span><strong>Category :</strong> {{data.0.category}}</span>
+				<span><strong>SubCategory :</strong> {{data.0.subcategory}}</span>
+				<hr/>
+				<strong>Quiz test questions</strong>
+				<hr/>
+
+				<div class="container-fluid">
+					<div class="row d-flex" style="margin:auto; gap: 10px;">
+						{% for question_data in quiz_data%}
+						<div class="card">
+							<div class="card-body">
+							<div class="mb-2">
+								<strong class="mb-2">{{ question_data.question }}</strong>
+							</div>
+
+							<div class="row d-flex mb-2" style="margin:auto;gap: 8px;">
+								{% for answer in question_data.answers %}
+								<div class="card questionscard ">
+									<div class="form-check">
+									  <input class="form-check-input" type="radio" name="flexRadioDefault" id="id_{{answer}}">
+									  <label class="form-check-label" for="id_{{answer}}">
+									    {{answer}}
+									  </label>
+									</div>
+								</div>
+								{% endfor %}
+
+							</div>
+
+							<strong><span style="color: #5edc88;">RightAnswer :</span> {{question_data.rightanswer}} </strong>
+								
+							</div>
+						</div>
+						{% endfor %}		
+
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

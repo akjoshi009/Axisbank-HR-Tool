@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="website icon" type="png" href="{% static 'img/brefing.png'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Login</title>
+	<style type="text/css">
+		body{
+			/*background: url("{% static 'img/knowbg3.jpg'%}");*/
+				background: #1D1F21;
+	    	margin: 0;
+	    	padding: 0;
+	    	background-size: cover;
+		    background-position: center;
+		    opacity: 1.0;
+		    background-repeat: no-repeat;
+		    height: 100vh;
+
+		    
+		}
+		.page{
+			justify-content: center;
+    		padding: 9% 2%;
+    		    position: absolute;
+    width: 100%;
+		}
+
+		@media(max-width:786px){
+			.page{
+			justify-content: center;
+    		padding: 25% 2%;
+			}
+		}
+
+		.btn{
+			background: #8B5FBF;
+		    color: #FDEBED;
+		    font-weight: 500;
+		}
+		.btn:is(:hover, :focus){
+			background: #61398F;
+		    color: #fff;
+		    font-weight: 500;
+		}
+		.card{
+			
+				background-size: cover;
+		    background-position: center;
+		    opacity: 1.0;
+		    background-repeat: no-repeat;
+		    padding: 3%;
+		    color: #878787;
+		    background: #00000000;
+		    border: none;
+		    box-shadow: 0 2px 25px #202124;
+		    border-radius: 20px;
+		    /*filter: drop-shadow(3px 2px 6px #202124);*/
+		  
+		   
+		}
+		.loader{
+			text-align: center;
+		}
+
+		.loader icon i{
+			font-size: xx-large;
+			animation: rotation 2s infinite linear;
+		}
+
+		@keyframes rotation {
+		    from {-webkit-transform: rotate(0deg);}
+		    to   {-webkit-transform: rotate(359deg);}
+		}
+
+		.alert-danger{
+			background: #f443362e;
+		    color: #d73a3a;
+		    font-weight: 500;
+		    padding: 7px;
+		    text-align: center;
+		    border:none;
+		}
+
+		.alert-success{
+			background: #36f47921;
+		    color: #259d51;
+		    font-weight: 500;
+		    padding: 7px;
+		    text-align: center;
+		    border: none;
+		}
+		section{
+	font-size:3rem;
+	position:fixed;
+	height:100vh;
+	width: 100%;
+	
+	
+}
+
+
+
+
+section:nth-child(odd){
+	// background-color: grey;
+	color:white;
+	  background-color: #b61924;
+
+}
+
+	</style>
+</head>
+<body>
+
+<div class="d-flex page">	
+	<div class="card" style="backdrop-filter: blur(5px);font-size: initial;width: 29rem;">
+		<div class="card-body" style="padding: 5%;">
+			<form method="POST" action="get_login_details">
+				{% csrf_token %}
+			<div class="row d-flex mb-4 text-center">
+				<h4 style="color: #ae73f4;font-weight: 300;">Welcome To <strong style="font-weight: 400;">HR Management <img src="{% static 'img/brefing.png'%}" style="width: 26px;margin-top: -5px;" /></strong></h4>
+				<h7>Login here</h7>
+			</div>
+			<div class="row mb-3">
+				<label style="color:#cbd5e1;padding: 5px 0;"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Username</label>
+				<input type="text" name="username" id="id_username" required class="form-control">
+			</div>
+			<div class="row mb-4">
+				<label style="color:#cbd5e1;padding: 5px 0;"><i class="fa fa-lock" aria-hidden="true"></i> Password</label>
+				<input type="Password" name="password" id="id_password" required class="form-control">
+			</div>
+			<div class="row mb-2">
+				<button class="btn mb-4" id="submit1" type="submit">Login</button>
+				{% if messages %}
+
+              <ul class="messages">
+                  {% for message in messages %}      
+                  <div class="alert {{message.tags}}" role="alert" style="color: #f16868;">
+                    <i class="fa fa-user" aria-hidden="true"></i> {{message}}
+                  </div>
+                  {% endfor %}
+              </ul>
+              {% endif %}
+				<!-- <label id="error" style="text-align: center;color: #ff968e;font-weight: 500;"></label> -->
+			</div>
+			<div class="loader">
+				<icon><i class="fa fa-spinner" aria-hidden="true"></i></icon>
+			</div>
+			</form>
+		</div>
+		<div class="d-flex">&#169; Copyright 2023-2024 All Rights Reserved.</div>
+	</div>
+</div>
+<!-- <section id="particles-js" style="background: #222831;">
+		
+</section> -->
+<script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>	
+<script type="text/javascript" src="{% static 'js/boot.js'%}"></script>	
+<script type="text/javascript" src="{% static 'js/scrollmagic.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/particles.js'%}"></script>
+<script type="text/javascript">
+	$('.loader').hide();
+	setTimeout(function(){
+		$('.messages').hide();
+	},5000)
+
+
+	$('#submit').click(function(){
+		let user = document.querySelector('#id_username').value;
+		let passwd = document.querySelector('#id_password').value;
+		console.log(user,passwd)
+
+		$(document).ajaxStart(function(){
+		  $('.loader').show();
+		});
+
+		$(document).ajaxComplete(function(){
+		  $('.loader').hide();
+		  
+		});
+
+		$.ajax({
+			url:'get_login_details',
+			type:'POST',
+			data:{csrfmiddlewaretoken: '{{ csrf_token }}','username':user,'password':passwd},
+			success:function(resp){
+				let x = resp['data'];
+				let msg = resp['agen_portal'];
+				let err = resp['errmsg'];
+				console.log(x)
+				if(msg == 0){
+					window.location.href = '/dashboard';
+					document.querySelector('#id_username').value = '';
+					document.querySelector('#id_password').value = '';
+		  			
+				}
+				else if(msg == 1){
+					txt = `<div class="alert {{message.tags}}" role="alert"><i class="fa fa-user" aria-hidden="true"></i> ${err}</div>`
+					$('.messages').append(txt);
+					setTimeout(function(){
+						window.location.href = '/';
+
+					},1000)
+				}
+				else{
+
+					$('#error').html(msg);
+
+				}
+			},
+			error:function(resp){
+				
+				console.log('error')
+			}
+		})
+	})
+
+/*particlesJS("particles-js", {
+  "particles": {
+    "number": {
+      "value": 290,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#EEEEEE"
+    },
+    "shape": {
+      "type": "triangle",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      },
+      "polygon": {
+        "nb_sides": 10
+      },
+      "image": {
+        "src": "img/github.svg",
+        "width": 100,
+        "height": 100
+      }
+    },
+    "opacity": {
+      "value": 0.5,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 40,
+        "size_min": 0.1,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#ae73f4",
+      "opacity": 0.4,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 6,
+      "direction": "none",
+      "random": true,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": true,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "window",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "repulse"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 140,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 100,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 100,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
+*/
+
+
+
+</script>
+</body>
+</html>

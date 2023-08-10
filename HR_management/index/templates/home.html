@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="website icon" type="png" href="{% static 'img/brefing.png'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/master.css'%}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>	
+	<script type="text/javascript" src="{% static 'js/boot.js'%}"></script>	
+	<title>Dashboard</title>
+	<style type="text/css">
+		body{
+			color: #fff;
+		}
+.spinner-overlay {
+  display: none;
+  z-index: 9999;
+  background: #222831;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.spinner {
+  width: 70px;
+  text-align: center;
+}
+
+.spinner-overlay__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.spinner__bounce {
+  width: 7px;
+  height: 7px;
+  background-color: #892CDC;
+  border-radius: 100%;
+  display: inline-block;
+  animation: bouncedelay 1.4s infinite ease-in-out both;
+    animation-delay: 0s;
+}
+
+.spinner__bounce--1 {
+  animation-delay: -0.32s;
+  margin-right: 6px;
+
+}
+
+.spinner__bounce--2 {
+  animation-delay: -0.16s;
+  margin-right: 6px;
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+      transform: scale(2);
+      background-color: #892CDC;
+  } 
+  40% {
+     transform: scale(5);
+     background-color: #BC6FF1;
+  }
+}
+
+.neted_a_tag a{
+	color: #fff;
+}
+
+.collapse .card{
+	    background: transparent;
+    border: none;
+}
+
+</style>
+</head>
+<body>
+	<div class="loader">
+	<div class="spinner-overlay" id="animation-overlay">
+  <div class="spinner-overlay__inner">
+		<h5 style="color: #fff;font-size: 45px;">Loading</h5>
+    <div class="spinner">
+      <div class="spinner__bounce spinner__bounce--1"></div>
+      <div class="spinner__bounce spinner__bounce--2"></div>
+      <div class="spinner__bounce spinner__bounce--3"></div>
+    </div>
+  </div>
+</div>
+</div>
+	<header>
+		
+	</header>
+	<main>
+	<div class="wrapper">
+	<div class="sidebar">
+		<div class="navigation">
+			<ul>
+				<li><a><i class="fa fa-graduation-cap" aria-hidden="true"></i>HR Tool</span></a></li>
+
+				<li>
+					<div class="container" style="text-align: center;color: #fff4ff;">
+						<img src="{% static 'img/man.png'%}" class="userprofile" style="margin-bottom: 1rem;" />
+						<h6>{{request.session.fname}} {{request.session.lname}}</h6>
+						<p>{{request.session.jobtitle}}</p>
+					</div>
+				</li>
+				<hr>
+				<li><a href="{% url 'dashboard' %}" class="linkbtn"><i class="fa fa-tachometer" aria-hidden="true"></i><span>Dashboard</span></a></li>
+				
+				<li>
+					<a href="#" class="linkbtn"  data-bs-toggle="collapse" data-bs-target="#jobposting" aria-expanded="false"><i class="fa fa-paper-plane" aria-hidden="true"></i><span>Job Posting</span></a>
+					<div class="collapse" id="jobposting">
+						<div class="card card-body">
+						  	<div class="row neted_a_tag">
+						  		<a href="{% url 'new_job_posting' %}"><i class="fa fa-angle-right" aria-hidden="true"></i> Create Job</a>
+						  		<a href="{% url 'view_all_posting' %}"><i class="fa fa-angle-right" aria-hidden="true"></i> View All Job</a>
+						  	</div>
+					  </div>
+					</div>
+				</li>
+				
+				<li>
+					<a href="resume_ranking" class="linkbtn" data-bs-toggle="collapse" data-bs-target="#candidate"><i class="fa fa-file" aria-hidden="true"></i><span>candidate</span></a>
+					<div class="collapse" id="candidate">
+						<div class="card card-body">
+						  	<div class="row neted_a_tag">
+						  		<a href="{% url 'create_candidate'%}"><i class="fa fa-angle-right" aria-hidden="true"></i> Create candidate</a>
+						  		<a href="{% url 'view_candidate'%}"><i class="fa fa-angle-right" aria-hidden="true"></i> View candidate</a>
+						  	</div>
+					  </div>
+					</div>
+				</li>	
+	
+				<li>
+					<a data="history" class="linkbtn" data-bs-toggle="collapse" data-bs-target="#testmanagement"><i class="fa fa-history" aria-hidden="true"></i><span>Test Management</span></a>
+					<div class="collapse" id="testmanagement">
+						<div class="card card-body">
+						  	<div class="row neted_a_tag">
+						  		<a href="{% url 'create_test'%}"><i class="fa fa-angle-right" aria-hidden="true"></i> Create Test</a>
+						  		<a href="{% url 'test_result'%}"><i class="fa fa-angle-right" aria-hidden="true"></i> View All Test</a>
+						  	</div>
+					  </div>
+					</div>
+				</li>	
+
+
+				<li><a href="{% url 'logout'%}" data="logout" class="linkbtn"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></a></li>				
+			</ul>
+		</div>
+	</div>
+	<div class="main">
+		<navbar>
+			<div class="navtab">
+					<a class="brand_name" href="#"><i class="fa fa-bars" aria-hidden="true"></i></a>
+				<div class="menuitem">
+					<ul>	
+						<!-- <li><i class="fa fa-user-circle" aria-hidden="true"></i> </li> -->
+					</ul>
+				</div>
+			</div>
+		</navbar>
+		<div class="content">
+			{% block content %}
+
+			{% endblock %}
+		</div>
+	</div>
+	</div>
+
+	</main>
+
+<script type="text/javascript">
+
+function loadthis(){
+	 	
+		$('#animation-overlay').show();
+		$('.loader').show()
+		
+		setTimeout(function(){
+			$('.loader').hide()
+		},1500)
+	
+}
+
+/*
+$('.linkbtn').click(function(){
+
+  loadthis();
+var url = $(this).attr('data');
+
+window.location.href = ""+url+"";
+//document.location.href=`${url}`;
+});*/
+</script>
+</body>
+</html>

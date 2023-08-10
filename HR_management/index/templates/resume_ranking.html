@@ -1,0 +1,41 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container">
+	<strong>Automate Score given by AI </strong>	
+	<div class="row d-flex">
+		<div class="card card-body">
+			
+		<h4 style="color: #000;font-weight: 600;" class="mb-4">Recent tests</h4>
+		<hr style="color: #000;"/>
+		<table class="table" style="    color: #000;">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Name</th>
+		      <th scope="col">Job title</th>
+		      <th scope="col">Test Score</th>
+		      <th scope="col">Test Time</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	{% for i in data %}
+
+		    <tr>
+		      <th scope="row">{{forloop.counter}}</th>
+		      <td>{{i.name}}</td>
+		      <td>{{i.jobtitle}}</td>
+		      <td>{{i.score}}</td>
+		      <td>{{i.created_at}}</td>
+		    </tr>
+		    {% endfor %}
+		   
+		  </tbody>
+		</table>
+		</div>
+	</div>
+</div>	
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+	<div class="container" style="padding: 2% 0;">
+		<div class="d-flex">
+			<h5 style="color:#BC6FF1;"> Hello {{request.session.fname}} &#128516;</h5>
+		</div>
+	<div class="row d-flex mb-2"  style="padding: 0% 1%;">
+		<div class="card fixstatusbox">
+			<div class="card-body">
+				<div class="row d-flex" style="text-align:center;">
+					<img  src="{% static 'img/work-order.png' %}" style="width: 79px;margin: auto;" />
+					<h6 style="margin-bottom:0;color: #fdf6fd;font-size: medium;padding-bottom: 2%;">Welcome To Hr Tool</h6>
+					<p style="margin-bottom:0;color: #8f8f8f;font-size: small;">You can check daily status</p>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="row d-flex" style="text-align:center;">
+					<h5 style="margin-bottom:0;"><span class="daily_status_title"><i class="fa fa-inbox" aria-hidden="true"></i></span></h5>
+					<h4 style="margin-bottom:0;">{{jobcount}}</h4>
+					<h6 style="margin-bottom:0;">Total Job</h6>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="row d-flex" style="text-align:center;">
+					<h5><span class="daily_status_title"><i class="fa fa-file-text" aria-hidden="true"></i></span></h5>
+					<h4 style="margin-bottom:0;">{{testcount}}</h4>
+					<h6 style="margin-bottom:0;">Total Test</h6>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="row d-flex" style="text-align:center;">
+					<h5><span class="daily_status_title"><i class="fa fa-tasks" aria-hidden="true"></i></span></h5>
+					<h4 style="margin-bottom:0;">{{testassign}}</h4>
+					<h6 style="margin-bottom:0;">Total Assign</h6>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="row d-flex" style="text-align:center;">
+					<h5><span class="daily_status_title"><i class="fa fa-check-circle" aria-hidden="true"></i></span></h5>
+					<h4 style="margin-bottom:0;">{{testdone}}</h4>
+					<h6 style="margin-bottom:0;">Total Completed</h6>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="row d-flex" style="text-align:center;">
+					<h5><span class="daily_status_title"><i class="fa fa-users" aria-hidden="true"></i></span></h5>
+					<h4 style="margin-bottom:0;">{{ranks}}</h4>
+					<h6 style="margin-bottom:0;">Total Ranked resumes</h6>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+	<div class="container">	
+		<div class="d-flex mb-2 taskbar">
+			<h4 style="margin: 0;color: #BC6FF1;">Recent test results</h4>
+			<p  style="margin-bottom:0">
+				{% if role == 2 %}
+				<a href="create_post" role="button" class="newtaskbtn" style="text-decoration: none;"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+				{% endif %}
+				<a href="" role="button" class="newtaskbtn" style="text-decoration: none;"><i class="fa fa-list" aria-hidden="true"></i></a>
+				<a href="" role="button" class="newtaskbtn" style="text-decoration: none;"><i class="fa fa-filter" aria-hidden="true"></i></a>
+			</p>
+		</div>
+		<hr/>
+
+		<div class="container">
+			<div class="row d-flex">
+				<div class="card card-body">
+					
+				<h4 style="color: #000;font-weight: 600;" class="mb-4">Recent tests</h4>
+				<hr style="color: #000;"/>
+				<table class="table" style="    color: #000;">
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">Name</th>
+				      <th scope="col">Test Score</th>
+				      <th scope="col">Test Time</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	{% for i in rs_data %}
+				    <tr>
+				      <th scope="row">{{i.result_id}}</th>
+				      <td>{{i.name}}</td>
+				      <td>{{i.test_score}}</td>
+				      <td>{{i.created_at}}</td>
+				    </tr>
+				    {% endfor %}
+				   
+				  </tbody>
+				</table>
+				</div>
+			</div>
+		</div>		
+
+			
+		
+
+		</div>
+
+	</div>
+	<script type="text/javascript">
+
+	</script>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+.btnview{
+padding: 4px 10px;
+    font-size: medium;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    background: #bb81e4;
+    text-decoration: none;
+}
+.btnrank{
+padding: 4px 10px;
+   font-size: medium;
+   color: #fff;
+   border: none;
+   border-radius: 3px;
+   background: #ff9a46;
+   text-decoration: none;
+   text-decoration: none;
+}
+.btnai{
+   padding: 4px 10px;
+   font-size: medium;
+   color: #fff;
+   border: none;
+   border-radius: 3px;
+   background: #53df70;
+   text-decoration: none;
+}
+</style>
+
+<!-- loader here -->
+<div class="modal fade" id="active_loader" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row" style="margin:auto;text-align: center;" id="test_submitting">
+        <span><i class="fa fa-circle-o-notch fa-spin" style="font-size:48px;color:#892cdc"></i></span>
+        <strong style="color: #929292;margin-top: 1rem;">Wait candidates are ranking by AI...</strong>
+        </div>
+        <div class="row" style="margin:auto;text-align: center;" id="success_test">
+        <span><i class="fa fa-check-circle" style="font-size:48px;color:#892cdc"></i></span>
+        <strong style="color: #929292;margin-top: 1rem;">AI Ranking Successfully done.</strong>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end -->
+
+<div class="container">
+<strong>Total Job post</strong>
+<div class="row d-flex"  style="margin:auto; gap:10px">
+
+{% for i in job %}
+<div class="card" style="width:max(30%, 20rem)">
+<div class="card-body">
+<div class="d-flex mb-1" style="margin:auto">
+<span style="margin-right:10px;"><i style="color: #6e6e6e;" class="fa fa-user-circle-o" aria-hidden="true"></i> Job :</span>
+<span>{{i.job_titles}}</span>
+</div>
+<div class="d-flex mb-1" style="margin:auto">
+<span style="margin-right:10px;"><i style="color: #6e6e6e;" class="fa fa-cogs" aria-hidden="true"></i> Category :</span>
+<span>{{i.sub_category}}</span>
+</div>
+<div class="d-flex mb-1" style="margin:auto">
+<span style="margin-right:10px;"><i style="color: #6e6e6e;" class="fa fa-briefcase" aria-hidden="true"></i> Experience :</span>
+<span>{{i.experience}}</span>
+</div>
+<div class="row d-flex mb-2" style="margin:">
+<span style="margin-right:10px;"><i style="color: #6e6e6e;" class="fa fa-wrench" aria-hidden="true"></i> Skills required </span>
+<span style="padding: 10px;background: #ebeaed;border-radius: 10px;">{{i.skills}}</span>
+</div>
+<div class="row d-flex" style="">
+<form method="POST" action="check_job_description/" style="width: fit-content;">
+{% csrf_token %}
+<input type="hidden" name="jobid" value="{{i.jid}}">
+<button class="btnview">Details</button>
+</form>
+<form method="POST" action="resume_ranking" style="width: fit-content;">
+{% csrf_token %}
+<input type="hidden" name="jobid" value="{{i.jid}}">
+<button class="btnrank">Ranking</button>
+</form>
+<form style="width:fit-content;">
+<input type="hidden" name="airank" value="{{i.jid}}" >
+<button type="button" id="aibtn_{{i.jid}}" data="{{i.jid}}" class="btnai">AI</button>
+</form>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+
+<script type="text/javascript">
+$("#success_test").hide();
+
+$('.btnai').click(function(){
+var id = $(this).attr('data');
+console.log(id)
+
+$.ajax({
+url:'{% url "ai_ranker" %}',
+type:'POST',
+data:{'csrfmiddlewaretoken':'{{ csrf_token }}','jid':id},
+beforeSend:function(){
+console.log('loading..')
+$("#active_loader").modal('show');
+},
+success:function(resp){
+var opt = resp['success'];
+var msg = resp['msg'];
+console.log(opt, msg)
+if(opt == 1){
+console.log(msg)
+}
+else{
+
+console.log(msg)
+}
+console.log('done');
+$("#test_submitting").hide();
+$("#success_test").show();
+setTimeout(function(){
+$("#active_loader").modal('hide');
+},1500)
+},
+error:function(resp){
+console.log('error');
+}
+})
+
+})
+</script>
+
+{% endblock %}

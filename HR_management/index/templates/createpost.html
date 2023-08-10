@@ -1,0 +1,137 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<style type="text/css">
+	.ck.ck-editor {
+    position: relative;
+    width: 100%;
+}
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{
+	height: 250px;
+}
+.attachment{
+	background: #892CDC;
+    color: #fff4ff;
+    font-weight: 500;
+    width: fit-content;
+}
+</style>
+<div class="container">	
+	<div class="d-flex mb-2 taskbar" style="    justify-content: space-between;">
+		<h4 style="margin: 0;color: #BC6FF1;">Create Post</h4>
+		<a href="history" role="button" class="newtaskbtn" style="text-decoration: none;"><i class="fa fa-history" aria-hidden="true"></i> History</a>
+	</div>
+	<hr/>
+
+	<div class="container">
+		<p style="color:#9a9aa1;">Create post here - after finishing the editing you can simply click on all done button. after checking showing create post </p>
+		<div class="row d-flex" style="padding: 30px;">
+			<form method="POST" enctype='multipart/form-data' action="get_post_data">
+				{% csrf_token %}
+			<div class="row d-flex mb-3 inputattr">
+				<label class="postlabel">Title</label>
+				<input type="text" name="title" id="id_title" class="form-brefing" placeholder="Enter Title.." required>
+			</div>
+
+			<div class="row d-flex mb-3 inputattr">
+				<label class="postlabel">Descripation</label>
+				<!-- <div id="editor">write description here..</div> -->
+				<textarea name="content" id="editor" placeholder="write somthing here.."></textarea>
+			</div>	
+
+			<div class="row d-flex mb-2 uploadsection">
+				<label for="id_imagefile" class="attachment btn"><i class="fa fa-files-o" aria-hidden="true"></i> Attachments </label>
+				<input type="file" name="imagefile[]" id="id_imagefile" class="form-brefing" style="visibility:hidden;" multiple style="padding: 0;" accept="image/jpg, image/jpeg, image/gif, image/png, application/pdf,application/vnd.ms-excel">
+
+			</div>
+
+			<div class="row d-flex">
+				<button class="btn-custome" id="addfile" type="button"><i class="fa fa-check-circle" aria-hidden="true"></i> All Done</button>
+				<button class="btn-custome" id="createbtn"><i class="fa fa-flag" aria-hidden="true"></i> Submit</button>
+				<textarea id="msg" name="descripation" style="display:none;"></textarea>   
+
+			</div>
+			<!-- <div>
+				<textarea id="desp" data="desp_id"></textarea>
+			</div> -->
+
+		</form>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript">
+
+/*$('.uploadsection').css('visibility','hidden')*/
+$('#createbtn').hide();
+let editor;
+ClassicEditor
+.create( document.querySelector( '#editor' ) )
+.then( newEditor => {
+         editor = newEditor;
+        console.log( editor.getData() );
+        editor.disableAutoInline = true;
+
+} )
+.catch( error => {
+        console.error( error );
+} );
+
+function htmlDecode(input){
+	 var e = document.createElement('div');
+	 e.innerHTML = input;
+	return e.childNodes[0].nodeValue;
+}
+
+$('#addfile').click(function(){
+	var title = $('#id_title').val();
+	/*if(title)*/
+	let getck_data = editor.getData();
+	console.log(getck_data)
+	let convert_data = htmlDecode(getck_data);
+	$('#msg').text(editor.getData())
+	console.log($('#msg').text())
+	$(this).hide();
+	$('#createbtn').show();
+});
+
+$("input[type='file']").on("change", function(){  
+  var numFiles = $(this).get(0).files.length
+  $('.attachment').html(`<i class="fa fa-files-o" aria-hidden="true"></i> Attachments | ${numFiles} Files`)
+});
+
+
+</script>
+<script type="text/javascript">
+$('#addfile').click(function(){
+
+})
+/*
+$('#createbtn').submit(function(e){
+
+	var title = $('#id_title').val();
+	var descrip = editor.getData();
+	var descrip = editor.getData();
+	var images = $('#id_imagefile').val();
+	var file = $('#id_files').val();
+ 	
+ 	$.ajax({
+ 		url:'get_post_data',
+ 		type:'POST',
+ 		data:{csrfmiddlewaretoken: '{{ csrf_token }}','title':title,'descrip':descrip,'img':images,'files':file},
+ 		success:function(resp){
+ 			console.log("done");
+
+ 		},
+ 		error:function(resp){
+ 			console.log("error");
+ 		} 			
+ 	})
+
+});
+*/
+</script>
+
+{% endblock %}

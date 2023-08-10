@@ -1,0 +1,184 @@
+{% extends 'home.html'%}
+{% load static %}
+
+{% block content%}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<style type="text/css">
+	h5, h4, h3, h2, h1{
+		color: #fff;
+	}
+	.editbtn{
+		background: #3DCCA2;
+    	color: #fff;
+	}
+	.editbtn:hover{
+		background: #2f9476;
+    	color: #fff;
+	}
+	.deletebtn{
+		background: #f3695f;
+    	color: #fff;
+	}
+	.deletebtn:hover{
+		background: #d2463b;
+    	color: #fff;
+	}
+	.tabledata{
+		background: #ffffff33;
+    	padding: 10px;
+    	color: #fff;
+	}
+	input{
+		color: #fff;
+	}
+	.table>tbody {
+    vertical-align: inherit;
+    color: #fff;
+    background: #454e59;
+}
+.table>thead {
+    vertical-align: bottom;
+    color: #fff;
+    background: #892cdc;
+    }
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    color: #fff;
+}
+.date{
+	width: 100%;
+    padding: 5px;
+    border-radius: 7px;
+    border: none;
+    color: #7e7e7e;
+}
+.brefing-label{
+	color: #BC6FF1;
+    font-weight: 400;
+    font-size: large;
+    margin-bottom: 5px;
+    padding: 0;
+}
+</style>
+<div class="container-fluid" style="padding: 2% 11px;">
+	<div class="d-flex mb-2 taskbar">
+		<h4 style="margin: 0;color: #BC6FF1;">Report</h4>
+		<a href="dashboard" role="button" class="newtaskbtn" style="text-decoration: none;"><i class="fa fa-reply" aria-hidden="true"></i> Back</a>
+	</div>	
+	<hr/>
+	<form method="POST" action="get_report" id="repform">
+		{% csrf_token %}
+	<div class="row d-flex" style="color:#ffffff33;margin-bottom: 35px;">
+		<div class="col-lg-3 col-md-4 col-sm-12">
+			<label class="brefing-label">From Date</label>
+			<input type="date" name="fromdate" id="fdate" class="form-brefing date" required onchange="startdate()">
+			<label id="starterr" style="color: #fa6d6d;"></label>
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-12">
+			<label class="brefing-label">To Date</label>
+			<input type="date" name="todate" id="ldate" class="form-brefing date" required onchange="enddate()">
+			<label id="enderr" style="color: #fa6d6d;"></label>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-12">
+			<label class="brefing-label">Type</label>
+			<select class="form-brefing date" name="reporttype" id="rtype" required onchange="reporttype()">
+				<option>Select</option>
+				<option value="1">Summary</option>
+				<option value="2">individual post</option>
+			</select>
+			<label id="typeerr" style="color: #fa6d6d;"></label>
+		</div>
+		<div class="col-lg-2 col-md-4 col-sm-12" style="align-self:center;">
+			<button type="button" class="newtaskbtn" id="reportbtn"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+		</div>
+	</div>
+	
+	</form>
+
+	<!-- tables -->
+	<div class="container-fluid">
+		<div class="row"></div>
+		<div class="row">
+			
+		</div>
+	</div>	
+	<table class="table" id="example">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Created Date</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for i in history %}
+    <tr>
+      <th scope="row">{{i.id}}</th>
+      <td>{{i.title}}</td>
+      <td>{{i.description}}</td>
+      <td>{{i.created_at}}</td>
+      <td>
+      	<form action="view_post" method="POST">
+			{% csrf_token %}
+			<input type="text" name="search_tearm" style="display:none" value="{{i.id}}"> 
+			<button type="submit" class="viewtask"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+		</form>
+      </td>
+    </tr>
+    {% endfor %}    
+  </tbody>
+</table>
+
+</div>
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $('#example').DataTable();
+});
+
+
+function startdate() {
+	$('#starterr').html('')
+}
+
+function enddate() {
+	$('#enderr').html('')
+}
+
+function reporttype() {
+	$('#typeerr').html('')
+}
+
+
+var form = document.getElementById("repform");
+
+$("#reportbtn").click( function(event) {
+	var formdate = $('#fdate').val();
+	var todate = $('#ldate').val();
+	var reptype = $('#rtype').val();
+		console.log(formdate, reptype)
+	if (formdate == '' && todate == ''){
+		$('#starterr').html('Please select date')
+		event.preventDefault();
+	}
+	else if (todate == '') {
+		$('#enderr').html('Please select date')
+		event.preventDefault();
+	}
+	else if (reptype == 'Select') {
+		$('#typeerr').html('Please select report type')
+		event.preventDefault();
+	}
+	else{
+  	form.submit();
+
+	}
+});
+
+</script>
+{% endblock %}

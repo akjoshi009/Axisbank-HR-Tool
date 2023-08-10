@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="website icon" type="png" href="{% static 'img/brefing.png'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Verify</title>
+</head>
+<body>
+
+<!-- loader here -->
+<div class="modal fade" id="testactive_loader" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row" style="margin:auto;text-align: center;" id="test_submitting">
+        	<span><i class="fa fa-circle-o-notch fa-spin" style="font-size:48px;color:#6ad835"></i></span>
+        	<strong style="color: #929292;margin-top: 1rem;">Wait your test is submitting...</strong>
+        </div>
+        <div class="row" style="margin:auto;text-align: center;" id="success_test">
+        	<span><i class="fa fa-check-circle" style="font-size:48px;color:#6ad835"></i></span>
+        	<strong style="color: #929292;margin-top: 1rem;">Test submit Successfully</strong>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end -->
+<div class="container">
+	<div class="row d-flex" style="margin:auto;">
+		<div class="card card-body" style="color:#000;">
+			<div class="row d-flex">
+				
+				<strong>Quiz test questions</strong>
+				<input type="hidden" name="" id="candidateid" value="{{candidateid}}">
+				<input type="hidden" name="" id="testid"  value="{{test_link}}">
+				<hr/>
+
+				<div class="container-fluid">
+					<div class="row mb-2 d-flex" style="margin:auto; gap: 10px;">
+						
+
+						{% for question_data in quiz_data %}
+						{% with xcount=forloop.counter %}
+						<div class="card">
+							<div class="card-body">
+							<div class="mb-2">
+								<strong class="mb-2">{{ question_data.question }}</strong>
+							</div>
+
+							<div class="row d-flex mb-2" style="margin:auto;gap: 8px;">
+								<div class="card questionscard ">
+								<input type="hidden" name="values" class="" id="sc_{{xcount}}" value="0">
+								{% for answer in question_data.answers %}
+									<div class="form-check">
+									  <input class="form-check-input_{{xcount}}"  type="radio" name="quiz_{{xcount}}" id="id" data="{{xcount}}" value="{{answer}}">
+									  <label class="form-check-label_{{forloop.counter}}" for="id">
+									    {{answer}}
+									  </label>
+									</div>
+								{% endfor %}
+								</div>
+
+							</div>
+							<strong style="visibility: hidden;"><span style="color: #5edc88;">RightAnswer :</span> <span class="rightanswer_{{xcount}}">{{question_data.rightanswer}}</span> </strong>
+								
+							</div>
+						</div>
+							{% endwith %}
+						{% endfor %}		
+
+
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<button type="button" class="btn btn-success" id="submitbtn">Submit</button>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>	
+<script type="text/javascript" src="{% static 'js/boot.js'%}"></script>	
+<script type="text/javascript">
+	$(window).on('load', function(){
+		$('#success_test').hide()
+	})
+
+
+	{% for question_data in quiz_data %}
+	{% with ycount=forloop.counter %}
+	$('.form-check-input_{{ycount}}').on('change', function(){
+		var question = $(this).attr('data');
+		var user_ans = $(this).attr('value');
+		var correct = $('.rightanswer_{{ycount}}').html()
+		$('#sc_{{ycount}}').html()
+		
+		if(user_ans == correct){
+			$('#sc_{{ycount}}').val(1);
+		}
+		else{
+			$('#sc_{{ycount}}').val(0);
+
+		}
+	});
+	{% endwith %}
+	{% endfor %}
+
+	var total_sc = 0;
+	$('#submitbtn').click(function(e){
+		{% for question_data in quiz_data %}
+		{% with check=forloop.counter %}
+		
+
+		total_sc = total_sc + parseInt($('#sc_{{check}}').val());
+
+		{% endwith %}
+		{% endfor %}
+
+		$.ajax({
+			url:'{% url "test_submit" %}',
+			type:'POST',
+			data:{'csrfmiddlewaretoken':'{{ csrf_token }}','total_score':total_sc,'cid':$('#candidateid').val(),'testid':$('#testid').val()},
+			beforeSend:function(){
+				//console.log("submitting...")
+				$('#testactive_loader').modal('show');
+				
+
+			},
+			success:function(resp){
+				//console.log("done..");
+				$('#test_submitting').hide();
+				$('#success_test').show()
+				setTimeout(function(){
+					$('#testactive_loader').modal('show');
+				},2000)	
+				setTimeout(function(){
+					window.location.href = 'test'
+				},4000)	
+
+			},
+			error:function(resp){
+				console.log("error");
+			}
+
+		})
+	})
+
+</script>
+</body>
+</html>

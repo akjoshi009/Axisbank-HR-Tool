@@ -1,0 +1,183 @@
+{% extends 'home.html'%}
+{% load static %}
+
+{% block content%}
+<style>
+* {box-sizing: border-box}
+.mySlides1, .mySlides2 {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a grey background color */
+.prev:hover, .next:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+</style>
+<div class="container" style="padding: 1% 0;">
+	<div class="d-flex mb-2 taskbar">
+		<h4 style="margin: 0;color: #BC6FF1;">Your	Post</h4>
+		<a href="dashboard" role="button" class="newtaskbtn" style="text-decoration: none;"><i class="fa fa-reply" aria-hidden="true"></i> Back</a>
+	</div>	
+	<hr/>
+
+	<div class="card post_card">
+		<div class="card-body">
+			<div class="title row">
+				<h5 class="post_title">{{title}}</h5>
+				<hr/>
+				<div class="post_desp mb-3">{{description}}</div>
+				<!-- <div class="imagearea">
+					
+					<img src="{{i}}" class="post_img" style="width: 80%;border-radius: 10px;height: 25rem;">
+					
+				</div> -->
+			</div>
+			<div>
+				<div class="slideshow-container">
+				  {% for i in imgs %}
+				  <div class="mySlides1">
+				    <img src="{{i}}" style="width:100%; height: 25rem;" data="{{i}}" class="imgclick" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				  </div>
+				  {% endfor %}
+				  <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+				  <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+				</div>
+
+				
+
+				
+			</div>
+
+			<div>
+				<label style="color: #BC6FF1;margin-top: 4%;font-weight: 600;">Attachments <i class="fa fa-link" aria-hidden="true"></i></label>
+			<div class="post_card_attach">
+				{% for i in docs %}
+				{% if i.doc_type == '.xls' %}
+					<div class="d-flex postfile_down">
+			    	<h6><i class="fa fa-file-excel-o" aria-hidden="true" style="color: #198754;font-weight: 500;font-size: x-large;padding-right: 10px;padding-left: 5px;"></i>  {{i.filename}}</h6>
+			    	<a href="{{i.filepath}}" class="btn btn-success" download><i class="fa fa-download" aria-hidden="true"></i></a>
+			    </div>
+			  {% else %}
+			  	<div class="d-flex postfile_down">
+			    	<h6><i class="fa fa-file-pdf-o" aria-hidden="true" style="color: #F44336;font-weight: 500;font-size: x-large;padding-right: 10px;padding-left: 5px;"></i>  {{i.filename}}</h6>
+			    	<a href="{{i.filepath}}" class="btn btn-success" download><i class="fa fa-download" aria-hidden="true"></i></a>
+			    </div>
+			  {% endif %}
+			  {% endfor %}
+			</div>
+		</div>
+	</div>
+	<hr/>
+	<div class="row" style="justify-content: center;">
+		{% if role == 1 %}
+		{% if post_read < 1 %}
+		<form method="GET" action="mark_as_read">
+			<input type="hidden" name="postid" value="{{post_id}}">
+			<button class="btn btn-success" type="submit" style="width: 100%;">Read <i class="fa fa-check" aria-hidden="true"></i></button>
+		</form>
+		{% else %}
+			<button class="btn btn-success" disabled type="button" style="width: 100%;">Read <i class="fa fa-check-square-o" aria-hidden="true"></i>
+ </button>
+
+		{% endif %}
+		{% endif %}
+	</div>
+
+
+	<div class="row d-flex">
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-xl">
+		    <div class="modal-content" style="background: none;backdrop-filter: blur(1px);">
+		      <div class="modal-header" style="border-bottom:none;">
+		        <h1 class="modal-title fs-5" id="exampleModalLabel">Image Preview</h1>
+		        <button type="button" class="btn" style="font-size: x-large;color: #afadad;padding: 2px 10px;" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+		      </div>
+		      <div class="modal-body">
+		        <img src="" style="width: 100%;">
+		      </div>
+		      
+		    </div>
+		  </div>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript">
+	
+
+	$('.imgclick').click(function(){
+		let url = $(this).attr('data')
+		$('.modal-body img').attr('src',url)
+	})
+
+	function mycall(rel) {
+		var src = $(this).val();
+		
+		
+	}
+	$(window).on('load', function(){
+		let x = $('.post_desp ').html();
+		function htmlDecode(input){
+	  var e = document.createElement('div');
+	  e.innerHTML = input;
+	  return e.childNodes[0].nodeValue;
+		}
+
+		$('.post_desp ').html('')
+		$('.post_desp ').append(htmlDecode(x))
+
+		
+});
+</script>
+<script type="text/javascript">
+
+let slideIndex = [1,1];
+let slideId = ["mySlides1", "mySlides2"]
+showSlides(1, 0);
+showSlides(1, 1);
+
+function plusSlides(n, no) {
+  showSlides(slideIndex[no] += n, no);
+}
+
+function showSlides(n, no) {
+  let i;
+  let x = document.getElementsByClassName(slideId[no]);
+  if (n > x.length) {slideIndex[no] = 1}    
+  if (n < 1) {slideIndex[no] = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+  x[slideIndex[no]-1].style.display = "block";  
+}
+</script>
+{% endblock %}

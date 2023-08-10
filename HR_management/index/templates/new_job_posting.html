@@ -1,0 +1,229 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<style type="text/css">
+	.ck.ck-editor {
+    position: relative;
+    width: 100%;
+}
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{
+	height: 250px;
+}
+.attachment{
+	background: #892CDC;
+    color: #fff4ff;
+    font-weight: 500;
+    width: fit-content;
+}
+</style>
+
+<!-- loader here -->
+<div class="modal fade" id="active_loader" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row" style="margin:auto;text-align: center;" id="test_submitting">
+        	<span><i class="fa fa-circle-o-notch fa-spin" style="font-size:48px;color:#892cdc"></i></span>
+        	<strong id="sentence" style="color: #929292;margin-top: 1rem;">Wait your description is generating...</strong>
+        </div>
+        <div class="row" style="margin:auto;text-align: center;" id="success_test">
+        	<span><i class="fa fa-check-circle" style="font-size:48px;color:#892cdc"></i></span>
+        	<strong style="color: #929292;margin-top: 1rem;">Test submit Successfully</strong>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end -->
+
+<div class="container">
+	<div class="row d-flex" style="justify-content:center;align-items: center;padding: inherit;padding-top: 5%;">
+		<div class="card" style="width: max(80%, 32rem);">
+			<h5 style="color: #892cdc;padding: 11px;"><strong>Create job description</strong></h5>
+			<div class="card-body">
+				<form class="" method="POST">
+					<div class="row mb-2" style="margin: auto;">
+						<label>Job Title</label>
+						<input type="text" name="jobtitle" id="id_jobtitle" class="form-control">
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<label>Category</label>
+						<input type="text" name="category"  id="id_category" class="form-control">
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<label>Sub category</label>
+						<input type="text" name="subcategory" id="id_subcategory" class="form-control">
+					</div>
+					<div class="row mb-2" style="margin:auto;">
+						<label>Experience required</label>
+						<input type="hidden" name="experience" id="id_experience1">
+						<select class="form-control" id="id_experience" >
+							<option>Select</option>
+							<option value="0-2">(0-2) Experience</option>
+							<option value="2-5">(2-5) Experience</option>
+							<option value="5+">5+ Experience</option>
+						</select>
+					</div>
+					<div class="row mb-2" style="margin: auto;">
+						<label>Skill Requirement</label>
+						<textarea name="skills" class="form-control" id="id_skills" rows="3"></textarea>
+					</div>
+					<div class="row d-flex" style="margin:auto">
+						<button class="btn newtaskbtn" id="aibtn" type="button"><span id="txt">Generate</span><span id="loader"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i></span></button>
+					</div>
+				</form>
+				<div class="description mb-2 " style="margin-top: 2rem;">
+					<label>Job Description</label>
+					<textarea name="content" id="editor" placeholder="write somthing here.."></textarea>
+					<button class="btn newtaskbtn" id="getDataButton" style="margin-top: 2%;">Submit</button>
+				</div>
+
+			</div>
+		</div>		
+	</div>
+</div>
+<script type="text/javascript">
+$(window).on('load', function(){
+	$('#success_test').hide()
+})
+
+$('#createbtn').hide();
+$('#loader').hide();
+$('.description').hide();
+
+
+let editor;
+ClassicEditor
+.create( document.querySelector( '#editor' ) )
+.then( newEditor => {
+         editor = newEditor;
+        //console.log( editor.getData() );
+        editor.disableAutoInline = true;
+
+} )
+.catch( error => {
+        console.error( error );
+} );
+
+
+
+// Get CKEditor Data
+document.getElementById('getDataButton').addEventListener('click', function() {
+	var jobtitle = $('#id_jobtitle').val();
+	var category = $('#id_category').val();
+	var subcategory = $('#id_subcategory').val();
+	var experience = $('#id_experience1').val();
+	var skill = $('#id_skills').val();
+    var editorData = editor.getData();
+    //console.log(editorData); 
+    $('#sentence').hide();
+
+
+    $.ajax({
+    	url:'save_all_data',
+    	type:'POST',
+    	data:{'csrfmiddlewaretoken':'{{ csrf_token }}', 'jobtitle':jobtitle, 'category':category, 'subcategory':subcategory, 'skill':skill,'experience':experience,'description':editorData},
+    	beforeSend:function(){
+    		console.log('sending...')
+    		$('#active_loader').modal('show');
+    	},
+    	success:function(resp){
+    		var save = resp['datasave']
+    		if(save==1){
+    			$('#test_submitting').hide()
+    			$('#success_test').show()
+    			$('#active_loader').modal('show');
+    			setTimeout(function(){
+    				window.location.href = window.location.pathname;
+    			},2000)
+    		}
+    		else{
+    			alert('data add not success...');
+    		}
+
+    		console.log('done..')
+    	},
+    	error:function(resp){
+
+    	}
+
+    })
+});
+
+
+	function htmlDecode(input){
+		 var e = document.createElement('div');
+		 e.innerHTML = input;
+		return e.childNodes[0].nodeValue;
+	}
+
+
+	$('#id_experience').on('change', function(){
+		$('#id_experience1').val(this.value);
+	})	
+
+
+	$('#aibtn').click(function(e){
+		var jobtitle = $('#id_jobtitle').val();
+		var category = $('#id_category').val();
+		var subcategory = $('#id_subcategory').val();
+		var experience = $('#id_experience1').val();
+		var skill = $('#id_skills').val();
+
+		if(!jobtitle || !category || !subcategory || !experience || !skill){
+
+			console.log('fill...')
+			e.preventDefault();
+		}
+		else{
+
+		console.log(jobtitle, category, subcategory, skill);
+
+		$.ajax({
+			url:'get_job_details',
+			type:'POST',
+			data:{'csrfmiddlewaretoken':'{{ csrf_token }}', 'jobtitle':jobtitle, 'category':category, 'subcategory':subcategory, 'skill':skill,'experience':experience},
+			beforeSend:function(){
+				console.log('loading...');
+				//$('#txt').hide();
+				//$('#loader').show();
+				$('#active_loader').modal('show');
+
+			},
+			success:function(resp){
+				var answer = resp['answer'];
+					
+			$('#editor').html(answer)
+				//#htmlDecode(answer)
+				//console.log('done')
+				//console.log(answer)
+				//$('#loader').hide();
+
+				editor.setData(answer);
+
+				$('.description').show();
+
+				$('#active_loader').modal('hide');	
+			},
+			complete:function(){
+				$('#txt').show();
+				$('#loader').hide();
+			},
+			error:function(resp){
+				console.log('error')
+			}
+		})
+
+	}
+
+	});
+
+
+
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Hr Tool</title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+<header>
+	<navbar>
+		<div class="navtab">
+				<a class="brand_name" href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Brefing Tool</a>
+			<div class="menuitem">
+				<ul>
+					<li><i class="fa fa-home" aria-hidden="true"></i></li>
+					<li><i class="fa fa-bell" aria-hidden="true"></i></li>	
+					<li><i class="fa fa-paper-plane" aria-hidden="true"></i></li>	
+					<li><i class="fa fa-user-circle" aria-hidden="true"></i> </li>
+				</ul>
+			</div>
+		</div>
+	</navbar>
+</header>
+<main>
+	<div class="wrapper">
+	<div class="sidebar">
+		<div class="navigation">
+			<ul>
+				<li><i class="fa fa-tachometer" aria-hidden="true"></i><span>Dashboard</span></li>
+					<li><i class="fa fa-bell" aria-hidden="true"></i><span>Notification</span></li>	
+					<li><i class="fa fa-paper-plane" aria-hidden="true"></i><span>Post</span></li>	
+					<li><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></li>				
+			</ul>
+		</div>
+	</div>
+	<div class="main">
+	<div class="container" style="padding: 2% 0;">
+	<div class="row d-flex mb-2">
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="d-flex">
+					<h5><span class="logos_title"><i class="fa fa-inbox" aria-hidden="true"></i></span> Total</h5>
+					<h4>48</h4>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="d-flex">
+					<h5><span class="logos_title"><i class="fa fa-users" aria-hidden="true"></i></span> Agent</h5>
+					<h4>48</h4>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="card statusbox">
+			<div class="card-body">
+				<div class="d-flex">
+					<h5><span class="logos_title"><i class="fa fa-users" aria-hidden="true"></i></span> Agent</h5>
+					<h4>48</h4>
+				</div>
+			
+			</div>
+		</div>
+
+
+	</div>
+	
+	</div>
+
+	<div class="container">	
+		<div class="d-flex mb-2 taskbar">
+			<h4 style="margin: 0;">All Post</h4>
+			<button class="newtaskbtn"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Post</button>
+		</div>
+		<hr/>
+
+		<div class="row d-flex mb-2 alltask">
+			{% for i in data %}
+			<div class="card taskcard">
+				<div class="d-flex task_header">
+					<span class="logos_title"><i class="fa fa-flag" aria-hidden="true"></i></span> 
+					<span>28 Apr 2023</span>
+				</div>
+				<div class="taskbody">
+					<h5>New Task create</h5>
+					<p>No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and</p>
+				</div>
+				<div class="taskfooter">
+					<h6 role="button" class="viewtask"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
+				</div>
+			</div>
+			{% endfor %}
+
+			<div class="card taskcard">
+				<div class="d-flex task_header">
+					<span class="logos_title"><i class="fa fa-flag" aria-hidden="true"></i></span> 
+					<span>28 Apr 2023</span>
+				</div>
+				<div class="taskbody">
+					<h5>New Task create</h5>
+					<p>No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and</p>
+				</div>
+				<div class="taskfooter">
+					<h6 role="button" class="viewtask"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
+				</div>
+			</div>
+
+
+			<div class="card taskcard">
+				<div class="d-flex task_header">
+					<span class="logos_title"><i class="fa fa-flag" aria-hidden="true"></i></span> 
+					<span>28 Apr 2023</span>
+				</div>
+				<div class="taskbody">
+					<h5>New Task create</h5>
+					<p>No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and</p>
+				</div>
+				<div class="taskfooter">
+					<h6 role="button" class="viewtask"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
+				</div>
+			</div>
+
+			<div class="card taskcard">
+				<div class="d-flex task_header">
+					<span class="logos_title"><i class="fa fa-flag" aria-hidden="true"></i></span> 
+					<span>28 Apr 2023</span>
+				</div>
+				<div class="taskbody">
+					<h5>New Task create</h5>
+					<p>No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and</p>
+				</div>
+				<div class="taskfooter">
+					<h6 role="button" class="viewtask"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
+				</div>
+			</div>
+
+			<div class="card taskcard">
+				<div class="d-flex task_header">
+					<span class="logos_title"><i class="fa fa-flag" aria-hidden="true"></i></span> 
+					<span>28 Apr 2023</span>
+				</div>
+				<div class="taskbody">
+					<h5>New Task create</h5>
+					<p>No one shall be subjected to arbitrary arrest, detention or exile. Everyone is entitled in full equality to a fair and public hearing by an independent and</p>
+				</div>
+				<div class="taskfooter">
+					<h6 role="button" class="viewtask"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	</div>
+	</div>
+</main>
+<footer></footer>
+</body>
+</html>

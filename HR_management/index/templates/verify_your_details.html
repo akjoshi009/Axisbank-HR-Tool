@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="website icon" type="png" href="{% static 'img/brefing.png'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Verify</title>
+</head>
+<body>
+
+	<div class="container">
+		<div class="row d-flex" style="margin:auto;justify-content: center;align-items: center;height: 100vh;">
+			
+			<div class="card" style="width: max(30%, 22rem);text-align: center;border: none;box-shadow: 0px 2px 28px #e1e1e1;">
+				<div class="card-body">
+					<form method="POST" action="{% url 'verify_candidate' %}">
+						{% csrf_token %}
+						<input type="hidden" name="link" id="testkey" value="{{testkey}}">
+						<div class="row mb-4" >
+							<strong>Verify candidate</strong>
+						</div>
+						<div class="row mb-2" style="margin:auto;">
+							<label>Enter your mobile number</label>
+							<input type="number" name="mobile_num" class="form-control" required>
+						</div>
+						<div class="row" style="margin:auto;">
+							<button class="btn btn-success">Verify</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+<script type="text/javascript" src="{% static 'js/jquery.js'%}"></script>	
+<script type="text/javascript" src="{% static 'js/boot.js'%}"></script>	
+<script type="text/javascript">
+	$(window).on('load', function(){
+		var path = window.location.pathname ;
+	})
+	$('testkey')
+</script>
+</body>
+</html>

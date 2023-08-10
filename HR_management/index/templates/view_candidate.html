@@ -1,0 +1,245 @@
+{% extends 'home.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+	.btnsearch{
+		padding: 7px 15px;
+	    margin-top: 1.2rem;
+	    border: none;
+	    border-radius: 5px;
+	    background: #daa4ff;
+	    color: #fff;
+	    font-weight: 600;
+	}
+
+	.resume_downloadbtn{
+		padding: 10px;
+		text-decoration: none;
+		text-align: center;
+		color: #fff;
+		background: #74c75f;
+    	border-radius: 8px;
+	}
+	.actionbtn{
+		padding: 10px 2px;
+    	gap: 10px;
+	}
+	.actionbtn button{
+		padding: 10px;
+		border: none;
+		border-radius: 8px;
+		color: #fff;
+	}
+
+	
+
+	.actionbtn button:nth-child(1){
+		background: #f56969;
+	}
+	.actionbtn button:nth-child(1):is(:hover, :focus){
+		background: transparent;
+		outline: 3px solid #f56969;
+		color:#f56969;
+	}
+
+	.actionbtn .btnnot{
+		background: #678ff6;
+	}
+	.actionbtn .btnnot:is(:hover, :focus){
+		background: transparent;
+		outline: 3px solid #678ff6;
+		color:#678ff6;
+	}
+
+	.actionbtn .btnpending{
+		background: #e8ac35;
+	}
+	.actionbtn .btnpending:is(:hover, :focus){
+		background: transparent;
+		outline: 3px solid #e8ac35;
+		color:#e8ac35;
+	}
+
+	.actionbtn .btncomplete{
+		background: #52a826;
+	}
+	.actionbtn .btncomplete:is(:hover, :focus){
+		background: transparent;
+		outline: 3px solid #52a826;
+		color:#52a826;
+	}
+
+	.sendbntn{
+		    background: #ff5959;
+    color: #fff;
+    font-weight: 500;
+	}
+
+	
+</style>
+<!-- test assign loader -->
+<div class="modal fade" id="assign_loader" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-5" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row" style="margin:auto;text-align: center;">
+        	<span><i class="fa fa-circle-o-notch fa-spin" style="font-size:48px;color:#929292"></i></span>
+        	<strong style="color: #929292;margin-top: 1rem;">Test assign in progress...</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- test assign here -->
+
+<div class="modal fade" id="test_assign" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: #1c1c1c;">Assign test to candidate</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        	<div class="row" style="margin:auto;">
+        		<label style="color: #000;font-weight: 600;">Select test</label>
+        		<select class="form-control" id="select_test">
+        			<option>Select</option>
+        			{% for i in testdata %}
+        			<option value="{{i.test_link}}">{{i.subcategory}}</option>
+        			{% endfor %}
+        		</select>
+        	</div>
+        	<input type="hidden" name="cid" value="" id="canid">
+
+        	<strong id="successmsg" style="font-weight: 600;color: #34a825;"><i class="fa fa-check" aria-hidden="true"></i> Test assign successfully...</strong>
+
+        	<a href="" id="testlink" target="_blank">click here</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i> Close</button>
+        <button type="button" class="btn sendbntn" id="sendbntn"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- end -->
+
+<div class="container">
+	<div  class="row d-flex filter_candidate mb-2">
+		<strong>Candidate Filter</strong>
+		<div class="row" style="margin:auto;">
+			<div class="row col-lg-3 col-md-4 col-sm-12" style="">
+				<label>Job Titles</label>
+				<select class="form-control">
+					<option>Select</option>
+				</select>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-12">
+				<label>Category</label>
+				<select class="form-control">
+					<option>Select</option>
+				</select>
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-12">
+				<label>Contact</label>
+				<input type="number" name="contact" class="form-control">
+			</div>
+			<div class="col-lg-3 col-md-4 col-sm-12" style="align-self: center;">
+				<button  type="submit"  class="btnsearch"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+			</div>
+		</div>
+	</div>
+	<hr/>
+	<strong>Total Candidate : {{candidate|length}}</strong>
+	<div class="row d-flex mt-3 gap-2" style="justify-content: center;">
+		{% for user in candidate %}
+		<div class="card" style="width:max(30%, 22rem);">
+			<div class="card-body" style="padding:10px 0;">
+				<div class="d-flex mb-2"  style="justify-content:start;align-items: center;gap:10px">
+					<img src="{% static 'img/user.png'%}" style="width:40px;">
+					<strong style="font-size: large;">{{user.name}}</strong>
+				</div>	
+				<hr style="color: black;margin: 9px 0;" />
+				<div class="d-flex mb-1" style="margin:auto">
+					<span style="margin-right:10px;font-weight: 600;"><i style="color: #6e6e6e;" class="fa fa-briefcase" aria-hidden="true"></i> Designation:</span>
+					<span>{{user.jobtitle}}</span>
+				</div>
+				<div class="d-flex mb-1" style="margin:auto">
+					<span style="margin-right:10px;font-weight: 600;"><i style="color: #6e6e6e;" class="fa fa-flag" aria-hidden="true"></i> Department :</span>
+					<span>{{user.jobcategory}}</span>
+				</div>
+				<div class="d-flex mb-1" style="margin:auto">
+					<span style="margin-right:10px;font-weight: 600;"><i style="color: #6e6e6e;" class="fa fa-phone" aria-hidden="true"></i> Contact :</span>
+					<span>{{user.contact}}</span>
+				</div>
+				<div class="card card-body d-flex">
+					<span>Resume file</span>
+					<a  href="{{user.resumefile}}" target="_blank" class="resume_downloadbtn"><i class="fa fa-cloud-download" aria-hidden="true"></i> Download resume</a>
+				</div>			
+				<hr style="color: black;margin: 9px 0;" />
+				<div class="d-flex actionbtn">
+					
+					<button id="email_{{user.cid}}" data="{{user.cid}}"><i class="fa fa-envelope" aria-hidden="true"></i> Send test email</button>
+					{% if user.test_status == 0 %}
+					<button class="btnnot"><i class="fa fa-file-text-o" aria-hidden="true"></i> Test Not assign</button>
+					{% elif user.test_status == 1 %}
+					<button class="btnpending"><i class="fa fa-file-text-o" aria-hidden="true"></i> Test pending..</button>
+					{% else %}
+					<button class="btncomplete"><i class="fa fa-check" aria-hidden="true"></i> Completed</button>
+					{% endif %}
+				</div>		
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
+	
+</div>
+
+
+<script type="text/javascript">
+	$('#successmsg').hide();
+	$('#testlink').hide()
+	$('[id^=email_]').click(function(){
+		var cid = $(this).attr('data');
+		$('#canid').val(cid)
+		console.log(cid)
+		$('#test_assign').modal('show');
+	})
+
+
+	$('#sendbntn').on('click', function(e){
+		var dt = $('#select_test').val();
+		var cidkey = $('#canid').val();
+		console.log(dt, cidkey)
+
+		$.ajax({
+			url:'{% url "assign_test" %}',
+			type:'POST',
+			data:{'csrfmiddlewaretoken':'{{ csrf_token }}','test_key':dt,'cidkey':cidkey},
+			beforeSend:function(){
+				$('#assign_loader').modal('show');
+			},
+			success:function(resp){
+				var link = resp['link']
+				$('#testlink').attr('href',link)
+				$('#successmsg').show();
+				setTimeout(function(){
+				$('#assign_loader').modal('hide');
+				},1000)
+				$('#testlink').show();
+			},
+			error:function(){
+
+			}
+		})
+
+	})
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'home.html'%}
+{% load static %}
+
+{% block content%}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<style type="text/css">
+	h5, h4, h3, h2, h1{
+		color: #fff;
+	}
+	.editbtn{
+		background: #3DCCA2;
+    	color: #fff;
+	}
+	.editbtn:hover{
+		background: #2f9476;
+    	color: #fff;
+	}
+	.deletebtn{
+		background: #f3695f;
+    	color: #fff;
+	}
+	.deletebtn:hover{
+		background: #d2463b;
+    	color: #fff;
+	}
+	.tabledata{
+		background: #ffffff33;
+    	padding: 10px;
+    	color: #fff;
+	}
+	input{
+		color: #fff;
+	}
+	.table>tbody {
+    vertical-align: inherit;
+    color: #fff;
+    background: #454e59;
+}
+.table>thead {
+    vertical-align: bottom;
+    color: #fff;
+    background: #892cdc;
+    }
+    .dataTables_wrapper {
+    position: relative;
+    clear: both;
+    color: #fff;
+}
+</style>
+<div class="container-fluid" style="padding: 2% 11px;">
+	<div class="d-flex mb-2 taskbar">
+		<h4 style="margin: 0;color: #BC6FF1;">History</h4>
+		<a href="dashboard" role="button" class="newtaskbtn" style="text-decoration: none;"><i class="fa fa-reply" aria-hidden="true"></i> Back</a>
+	</div>	
+	<hr/>
+
+	<!-- tables -->
+	<table class="table" id="example">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Created Date</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for i in history %}
+    <tr>
+      <th scope="row">{{i.id}}</th>
+      <td>{{i.title}}</td>
+      <td>{{i.description}}</td>
+      <td>{{i.created_at}}</td>
+      <td>
+      	<form action="view_post" method="POST">
+			{% csrf_token %}
+			<input type="text" name="search_tearm" style="display:none" value="{{i.id}}"> 
+			<button type="submit" class="viewtask"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+		</form>
+      </td>
+    </tr>
+    {% endfor %}    
+  </tbody>
+</table>
+
+</div>
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $('#example').DataTable();
+});
+</script>
+{% endblock %}
